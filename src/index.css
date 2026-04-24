@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+@theme {
+  /* System Brand Colors */
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-neon: var(--accent);
+  
+  /* Shared tokens */
+  --color-surface: var(--surface);
+  --color-text-main: var(--text);
+  --color-text-muted: var(--subtext);
+  --color-border-main: rgba(255, 255, 255, 0.1);
+  
+  /* Twinkle & Glow Effects */
+  --shadow-spark: 0 0 20px var(--primary), 0 0 40px var(--secondary);
+  --shadow-neon: 0 0 10px var(--accent), 0 0 20px var(--accent-low);
+
+  /* Animation Utilities */
+  --animate-shimmer: sparkle-shimmer 3s linear infinite;
+  --animate-twinkle: sparkle-twinkle 2s ease-in-out infinite;
+  --animate-glow-pulse: sparkle-glow 3s ease-in-out infinite;
+}
+
+@layer base {
+  * {
+    @apply border-[var(--primary)]/10;
+  }
+  body {
+    @apply bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--primary)]/30 transition-colors duration-500 font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-black tracking-tighter text-[var(--text)];
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[var(--primary)]/20 rounded-full hover:bg-[var(--primary)]/40 transition-colors;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--accent)] bg-clip-text text-transparent animate-shimmer;
+    background-size: 200% 100%;
+  }
+
+  .btn-spark {
+    @apply px-8 py-4 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white rounded-2xl font-bold transition-all hover:scale-[1.02] active:scale-95 shadow-lg shadow-[var(--primary)]/20 hover:shadow-[var(--primary)]/40 hover:brightness-110 flex items-center justify-center gap-3 overflow-hidden relative;
+    box-shadow: 0 0 20px var(--accent-low);
+  }
+
+  .btn-spark::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full transition-transform duration-1000;
+  }
+  
+  .btn-spark:hover::after {
+    transform: translateX(100%);
+  }
+
+  .card-ai {
+    @apply bg-[var(--surface)] border border-[var(--primary)]/10 rounded-[2.5rem] p-8 shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-[var(--primary)]/30 relative overflow-hidden;
+  }
+  
+  .glass {
+    @apply bg-[var(--surface)]/70 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+  
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-xl border border-white/5 shadow-2xl;
+  }
+}
+
+/* === ANIMATION SYSTEM (Global) === */
+
+@keyframes sparkle-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes sparkle-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes sparkle-glow {
+  0%, 100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent-low); }
+  50% { box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent-low); }
+}
+
+.animate-twinkle {
+  animation: sparkle-twinkle 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 200% 100%;
+  animation: sparkle-shimmer 3s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: sparkle-glow 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-twinkle, .animate-shimmer, .animate-glow-pulse {
+    animation: none;
+  }
+}
+
+/* === THEME 1: Celestial Midnight === */
+[data-palette="celestial"] {
+  --bg-light: #F5F3FF;
+  --surface-light: #FFFFFF;
+  --primary-light: #4C1D95;
+  --secondary-light: #7C3AED;
+  --accent-light: #D97706;
+  --accent-low-light: rgba(217, 119, 6, 0.2);
+  --text-light: #1E1B4B;
+  --subtext-light: #4338CA;
+
+  --bg-dark: #0A0F2C;
+  --surface-dark: #12183D;
+  --primary-dark: #7C3AED;
+  --secondary-dark: #A78BFA;
+  --accent-dark: #F59E0B;
+  --accent-low-dark: rgba(245, 158, 11, 0.2);
+  --text-dark: #F5F3FF;
+  --subtext-dark: #C4B5FD;
+}
+
+/* === THEME 2: Arctic Aurora === */
+[data-palette="arctic"] {
+  --bg-light: #F0FAFA;
+  --surface-light: #FFFFFF;
+  --primary-light: #0369A1;
+  --secondary-light: #0EA5E9;
+  --accent-light: #059669;
+  --accent-low-light: rgba(5, 150, 105, 0.2);
+  --text-light: #082F49;
+  --subtext-light: #075985;
+
+  --bg-dark: #0D1B2A;
+  --surface-dark: #1B263B;
+  --primary-dark: #0EA5E9;
+  --secondary-dark: #38BDF8;
+  --accent-dark: #34D399;
+  --accent-low-dark: rgba(52, 211, 153, 0.2);
+  --text-dark: #F0FAFA;
+  --subtext-dark: #7DD3FC;
+}
+
+/* === THEME 3: Rose Nebula === */
+[data-palette="rose"] {
+  --bg-light: #FFF7ED;
+  --surface-light: #FFFFFF;
+  --primary-light: #BE123C;
+  --secondary-light: #F43F5E;
+  --accent-light: #EA580C;
+  --accent-low-light: rgba(234, 88, 12, 0.2);
+  --text-light: #450A0A;
+  --subtext-light: #991B1B;
+
+  --bg-dark: #1C1917;
+  --surface-dark: #292524;
+  --primary-dark: #F43F5E;
+  --secondary-dark: #FB7185;
+  --accent-dark: #FB923C;
+  --accent-low-dark: rgba(251, 146, 60, 0.2);
+  --text-dark: #FFF7ED;
+  --subtext-dark: #FDA4AF;
+}
+
+/* === THEME 4: Golden Hour === */
+[data-palette="golden"] {
+  --bg-light: #FEFCE8;
+  --surface-light: #FFFFFF;
+  --primary-light: #B45309;
+  --secondary-light: #D97706;
+  --accent-light: #FCD34D;
+  --accent-low-light: rgba(252, 211, 77, 0.2);
+  --text-light: #451A03;
+  --subtext-light: #92400E;
+
+  --bg-dark: #1A0F0A;
+  --surface-dark: #2D1A12;
+  --primary-dark: #F59E0B;
+  --secondary-dark: #FBBF24;
+  --accent-dark: #FDE68A;
+  --accent-low-dark: rgba(253, 230, 138, 0.2);
+  --text-dark: #FEFCE8;
+  --subtext-dark: #FDE68A;
+}
+
+/* === THEME 5: Cyber Jade === */
+[data-palette="cyber"] {
+  --bg-light: #F8FAFC;
+  --surface-light: #FFFFFF;
+  --primary-light: #15803D;
+  --secondary-light: #16A34A;
+  --accent-light: #0284C7;
+  --accent-low-light: rgba(2, 132, 199, 0.2);
+  --text-light: #064E3B;
+  --subtext-light: #065F46;
+
+  --bg-dark: #0F172A;
+  --surface-dark: #1E293B;
+  --primary-dark: #22C55E;
+  --secondary-dark: #4ADE80;
+  --accent-dark: #06B6D4;
+  --accent-low-dark: rgba(6, 182, 212, 0.2);
+  --text-dark: #F8FAFC;
+  --subtext-dark: #86EFAC;
+}
+
+/* Apply chosen palette to root based on current mode */
+@layer base {
+  :root {
+    --bg: var(--bg-light);
+    --surface: var(--surface-light);
+    --primary: var(--primary-light);
+    --secondary: var(--secondary-light);
+    --accent: var(--accent-light);
+    --accent-low: var(--accent-low-light);
+    --text: var(--text-light);
+    --subtext: var(--subtext-light);
+  }
+
+  .dark {
+    --bg: var(--bg-dark);
+    --surface: var(--surface-dark);
+    --primary: var(--primary-dark);
+    --secondary: var(--secondary-dark);
+    --accent: var(--accent-dark);
+    --accent-low: var(--accent-low-dark);
+    --text: var(--text-dark);
+    --subtext: var(--subtext-dark);
+  }
+}
+
